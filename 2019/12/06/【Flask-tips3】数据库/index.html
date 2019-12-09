@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <script>
+  var _hmt = _hmt || []
+  ;(function() {
+    var hm = document.createElement('script')
+    hm.src = 'https://hm.baidu.com/hm.js?5a0acc897fd96474a2c8f4deac84611a'
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(hm, s)
+  })()
+</script> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    
+    <title>
+      【Flask_tips3】数据库 - 魏敬杨的个人网站
+    </title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    
+<link rel="stylesheet" href="/style/style.css">
+
+  <meta name="generator" content="Hexo 4.1.0"></head>
+  <body>
+    
+    <div id="post-toc" class="animated hiddenToc hide">
+      <span class="title">Toc</span>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库"><span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#写在前面"><span class="toc-text">写在前面</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一款不错的SQL模型绘制工具"><span class="toc-text">一款不错的SQL模型绘制工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装位置"><span class="toc-text">安装位置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#打开方式"><span class="toc-text">打开方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用方式"><span class="toc-text">使用方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQLAlchemy-炼金术-介绍-ˈaelkəmi"><span class="toc-text">SQLAlchemy(炼金术)介绍 [ˈælkəmi]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Migrate-迁移-简介-maɪˈɡreɪt"><span class="toc-text">Migrate(迁移)简介[maɪˈɡreɪt]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一些数据库术语"><span class="toc-text">一些数据库术语</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ORM"><span class="toc-text">ORM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VARCHAR"><span class="toc-text">VARCHAR</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flask-SQLAlchemy配置"><span class="toc-text">Flask-SQLAlchemy配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新的config-py"><span class="toc-text">新的config.py</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQLALCHEMY-DATABASE-URI"><span class="toc-text">SQLALCHEMY_DATABASE_URI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQLALCHEMY-TRACK-MODIFICATIONS"><span class="toc-text">SQLALCHEMY_TRACK_MODIFICATIONS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化数据库和数据库迁移引擎"><span class="toc-text">初始化数据库和数据库迁移引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库模型"><span class="toc-text">数据库模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一张样例图"><span class="toc-text">一张样例图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#样例解析"><span class="toc-text">样例解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#id、主键"><span class="toc-text">id、主键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VARCHAR-1"><span class="toc-text">VARCHAR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#password-hash"><span class="toc-text">password_hash</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#样例的代码实现"><span class="toc-text">样例的代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码解析"><span class="toc-text">代码解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#User类、db-Model"><span class="toc-text">User类、db.Model</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repr-方法"><span class="toc-text">__repr__方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建数据库迁移数据库"><span class="toc-text">创建数据库迁移数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命令"><span class="toc-text">命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关于flask命令的注意点"><span class="toc-text">关于flask命令的注意点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第一次数据迁移"><span class="toc-text">第一次数据迁移</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生成迁移脚本"><span class="toc-text">生成迁移脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#效果"><span class="toc-text">效果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更改升级的应用到数据库"><span class="toc-text">更改升级的应用到数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#效果-1"><span class="toc-text">效果</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库升级和降级流程"><span class="toc-text">数据库升级和降级流程</span></a></li></ol></li></ol>
+    </div>
+    
+    <div id="fixed-menu-wrap">
+      <span class="iconfont icon-sousuo search-box menu-reset"></span>
+      <span class="icon-toc menu-reset">Toc</span>
+      <span class="iconfont icon-arrowup menu-reset"></span>
+    </div>
+    <div id="fixed-menu">
+      <span class="iconfont icon-menu-"></span>
+    </div>
+    <div id="progress">
+      <div class="line"></div>
+    </div>
+    <div id="search-shade" class="animated hiddenSearch hide">
+      <div class="input-wrap">
+        <span class="iconfont icon-sousuo search-box"></span>
+        <input type="text" placeholder="Search" />
+        <span class="iconfont icon-close"></span>
+      </div>
+      <div class="search-result">
+        <div class="meta">
+          <span><b id="result-count">0</b> results found</span>
+          <img src="/images/logo.jpeg" />
+        </div>
+        <ul id="result-box"></ul>
+      </div>
+    </div>
+    <div id="menu-mask" class="animated hideMenuMask hide">
+      <span class="iconfont icon-close"></span>
+      <div class="nav">
+        
+        <a href="/" class="">
+          Home
+        </a>
+        
+        <a href="/archives" class="">
+          Archives
+        </a>
+        
+        <a href="/categories" class="">
+          Categories
+        </a>
+        
+        <a href="/tags" class="">
+          Tags
+        </a>
+        
+        <a href="/friends" class="">
+          Friends
+        </a>
+        
+        <a href="/about" class="">
+          About
+        </a>
+        
+      </div>
+    </div>
+    <div id="header">
+      <div class="intro">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <div class="author">魏敬杨</div>
+      </div>
+      <div class="nav">
+        <span class="iconfont icon-menu menu-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+    </div>
+    <div id="side" class="animated bounceInLeft">
+      <div class="shrink">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <span class="iconfont icon-menu toggle-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+      <div class="magnify">
+        <div class="about">
+          <div class="author">魏敬杨</div>
+          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        </div>
+
+        <div class="nav">
+          
+          <a href="/" class="">
+            Home
+          </a>
+          
+          <a href="/archives" class="">
+            Archives
+          </a>
+          
+          <a href="/categories" class="">
+            Categories
+          </a>
+          
+          <a href="/tags" class="">
+            Tags
+          </a>
+          
+          <a href="/friends" class="">
+            Friends
+          </a>
+          
+          <a href="/about" class="">
+            About
+          </a>
+          
+          <a href="#" class="search-box">
+            <span class="iconfont icon-sousuo"></span>
+          </a>
+        </div>
+        <div class="bottom">
+          <div class="follow">
+            
+            <a href="https://github.com/wjywjy61" target="_block">
+              <span class="iconfont icon-github"></span>
+            </a>
+            
+            <a href="http://home.cnblogs.com/u/scwjy/" target="_block">
+              <span class="iconfont icon-博客园"></span>
+            </a>
+            
+            <a href="https://www.jianshu.com/u/d17b50762811" target="_block">
+              <span class="iconfont icon-简书"></span>
+            </a>
+             
+            <a href="/atom.xml" target="_block">
+              <span class="iconfont icon-rss"></span>
+            </a>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="container">
+      <div class="main animated bounceInRight delay-0.7s">
+        <article class="post-entry">
+    <div class="header">
+      
+      <div class="title">【Flask_tips3】数据库</div>
+      <div class="meta">
+        <span class="item">
+          <span class="iconfont icon-time-circle"></span>
+          <span>2019/12/06</span>
+        </span>
+
+        
+
+        
+        
+         
+          <span class="item">
+            <span class="iconfont icon-tag1"></span>
+            <span>
+                
+                  
+                    <a href="/tags/flask">flask</a>
+                  
+                
+            </span>
+          </span>
+         
+      </div>
+      <div>
+      </div>
+    </div>
+    <h1 id="数据库">数据库<a class="post-anchor" href="#数据库"></a></h1><h2 id="写在前面">写在前面<a class="post-anchor" href="#写在前面"></a></h2><h3 id="一款不错的SQL模型绘制工具">一款不错的<a href="https://github.com/ondras/wwwsqldesigner" target="_blank" rel="noopener">SQL模型绘制工具</a><a class="post-anchor" href="#一款不错的SQL模型绘制工具"></a></h3><h4 id="安装位置">安装位置<a class="post-anchor" href="#安装位置"></a></h4><p>D:\Program Files\wwwsqldesigner</p>
+<h4 id="打开方式">打开方式<a class="post-anchor" href="#打开方式"></a></h4><p>在安装位置使用Nodejs的一个命令http-server（应该算是安装的一个插件吧）</p>
+<h4 id="使用方式">使用方式<a class="post-anchor" href="#使用方式"></a></h4><p>几乎完全不会</p>
+<h3 id="SQLAlchemy-炼金术-介绍-ˈaelkəmi">SQLAlchemy(炼金术)介绍 [ˈælkəmi]<a class="post-anchor" href="#SQLAlchemy-炼金术-介绍-ˈaelkəmi"></a></h3><blockquote>
+<p>SQLAlchemy不只是某一款数据库软件的ORM，而是支持包含<a href="https://www.mysql.com/" target="_blank" rel="noopener">MySQL</a>、<a href="https://www.postgresql.org/" target="_blank" rel="noopener">PostgreSQL</a>和<a href="https://www.sqlite.org/" target="_blank" rel="noopener">SQLite</a>在内的很多数据库软件。简直是太强大了，你可以在开发的时候使用简单易用且无需另起服务的SQLite，需要部署应用到生产服务器上时，则选用更健壮的MySQL或PostgreSQL服务，并且不需要修改应用代码（译者注：只需修改应用配置）。</p>
+</blockquote>
+<h3 id="Migrate-迁移-简介-maɪˈɡreɪt">Migrate(迁移)简介[maɪˈɡreɪt]<a class="post-anchor" href="#Migrate-迁移-简介-maɪˈɡreɪt"></a></h3><blockquote>
+<p>这个插件是<a href="https://bitbucket.org/zzzeek/alembic" target="_blank" rel="noopener">Alembic</a>的一个Flask封装，是SQLAlchemy的一个数据库迁移框架。 使用数据库迁移增加了启动数据库时候的一些工作，但这对将来的数据库结构稳健变更来说，是一个很小的代价。</p>
+</blockquote>
+<h3 id="一些数据库术语">一些数据库术语<a class="post-anchor" href="#一些数据库术语"></a></h3><h4 id="ORM">ORM<a class="post-anchor" href="#ORM"></a></h4><p>对象关系映射（Object Relational Mapping，简称<em>ORM</em>）是通过使用描述对象和数据库之间映射的元数据，将面向对象语言程序中的对象自动持久化到关系数据库中。</p>
+<h4 id="VARCHAR">VARCHAR<a class="post-anchor" href="#VARCHAR"></a></h4><p>数据库中的可变长度的字符串</p>
+<h2 id="Flask-SQLAlchemy配置">Flask-SQLAlchemy配置<a class="post-anchor" href="#Flask-SQLAlchemy配置"></a></h2><h3 id="新的config-py">新的config.py<a class="post-anchor" href="#新的config-py"></a></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">basedir = os.path.abspath(os.path.dirname(__file__))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Config</span><span class="params">(object)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    <span class="comment"># ...</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    SQLALCHEMY_DATABASE_URI = os.environ.get(<span class="string">'DATABASE_URL'</span>) <span class="keyword">or</span> \</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">        <span class="string">'sqlite:///'</span> + os.path.join(basedir, <span class="string">'app.db'</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    SQLALCHEMY_TRACK_MODIFICATIONS = <span class="literal">False</span></span></pre></td></tr></table></figure>
+
+<h3 id="SQLALCHEMY-DATABASE-URI">SQLALCHEMY_DATABASE_URI<a class="post-anchor" href="#SQLALCHEMY-DATABASE-URI"></a></h3><p>Flask-SQLAlchemy插件从<code>SQLALCHEMY_DATABASE_URI</code>配置变量中获取应用的数据库的位置。</p>
+<h3 id="SQLALCHEMY-TRACK-MODIFICATIONS">SQLALCHEMY_TRACK_MODIFICATIONS<a class="post-anchor" href="#SQLALCHEMY-TRACK-MODIFICATIONS"></a></h3><p>用于设置数据发生变更之后是否发送信号给应用，我不需要这项功能，因此将其设置为<code>False</code>。</p>
+<h2 id="初始化数据库和数据库迁移引擎">初始化数据库和数据库迁移引擎<a class="post-anchor" href="#初始化数据库和数据库迁移引擎"></a></h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">db = SQLAlchemy(app)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">migrate = Migrate(app, db)</span></pre></td></tr></table></figure>
+
+<h2 id="数据库模型">数据库模型<a class="post-anchor" href="#数据库模型"></a></h2><h3 id="一张样例图">一张样例图<a class="post-anchor" href="#一张样例图"></a></h3><a href="https://static.bookstack.cn/projects/The-Flask-Mega-Tutorial-zh/152d96712bcfa0a7.png" target="_blank" rel="noopener" data-caption="用户表" data-fancybox="images"><img src="https://static.bookstack.cn/projects/The-Flask-Mega-Tutorial-zh/152d96712bcfa0a7.png" alt="用户表"></a>
+
+
+
+<h3 id="样例解析">样例解析<a class="post-anchor" href="#样例解析"></a></h3><h4 id="id、主键">id、主键<a class="post-anchor" href="#id、主键"></a></h4><p><code>id</code>字段通常存在于所有模型并用作<em>主键</em>。每个用户都会被数据库分配一个id值，并存储到这个字段中。大多数情况下，主键都是数据库自动赋值的，我只需要提供<code>id</code>字段作为主键即可。</p>
+<h4 id="VARCHAR-1">VARCHAR<a class="post-anchor" href="#VARCHAR-1"></a></h4><p><code>username</code>，<code>email</code>和<code>password_hash</code>字段被定义为字符串（数据库术语中的<code>VARCHAR</code>），并指定其最大长度，以便数据库可以优化空间使用率。 </p>
+<h4 id="password-hash">password_hash<a class="post-anchor" href="#password-hash"></a></h4><p>不使用明文密码，而使用哈希密码，提高安全性</p>
+<h3 id="样例的代码实现">样例的代码实现<a class="post-anchor" href="#样例的代码实现"></a></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app <span class="keyword">import</span> db</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(db.Model)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    id = db.Column(db.Integer, primary_key=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    username = db.Column(db.String(<span class="number">64</span>), index=<span class="literal">True</span>, unique=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    email = db.Column(db.String(<span class="number">120</span>), index=<span class="literal">True</span>, unique=<span class="literal">True</span>)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    password_hash = db.Column(db.String(<span class="number">128</span>))</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">        <span class="keyword">return</span> <span class="string">'&lt;User &#123;&#125;&gt;'</span>.format(self.username)</span></pre></td></tr></table></figure>
+
+<h3 id="代码解析">代码解析<a class="post-anchor" href="#代码解析"></a></h3><h4 id="User类、db-Model">User类、db.Model<a class="post-anchor" href="#User类、db-Model"></a></h4><p>上面创建的User类继承自db.Model，它是Flask-SQLAlchemy中所有模型的基类。 这个类将表的字段定义为类属性，字段被创建为<code>db.Column</code>类的实例，它传入字段类型以及其他可选参数，例如，可选参数中允许指示哪些字段是唯一的并且是可索引的，这对高效的数据检索十分重要。</p>
+<h3 id="repr-方法"><code>__repr__</code>方法<a class="post-anchor" href="#repr-方法"></a></h3><p>该类的<code>__repr__</code>方法用于在调试时打印用户实例。</p>
+<h2 id="创建数据库迁移数据库">创建数据库迁移数据库<a class="post-anchor" href="#创建数据库迁移数据库"></a></h2><h3 id="命令">命令<a class="post-anchor" href="#命令"></a></h3><p>flask db init</p>
+<blockquote>
+<p>flask db 是Flask-Migrate添加的用来管理和迁移数据库的相关事情的子命令</p>
+</blockquote>
+<h4 id="关于flask命令的注意点">关于flask命令的注意点<a class="post-anchor" href="#关于flask命令的注意点"></a></h4><p>flask    命令依赖于    FLASK_APP    环境变量来知道Flask应用入口在哪里。</p>
+<p>可以在终端上用 set FLASK_APP=microblog.py 来配置</p>
+<h2 id="第一次数据迁移">第一次数据迁移<a class="post-anchor" href="#第一次数据迁移"></a></h2><h3 id="生成迁移脚本">生成迁移脚本<a class="post-anchor" href="#生成迁移脚本"></a></h3><p>flask db migrate -m”user table”</p>
+<h4 id="效果">效果<a class="post-anchor" href="#效果"></a></h4><p>生成了一个迁移脚本，位于microblog/migration/versions/eb69….py（文件名为用于迁移的唯一标识）</p>
+<p>内部包含upgrade()和dowmgrade()两个函数</p>
+<h3 id="更改升级的应用到数据库">更改升级的应用到数据库<a class="post-anchor" href="#更改升级的应用到数据库"></a></h3><p>flask db upgrade</p>
+<h4 id="效果-1">效果<a class="post-anchor" href="#效果-1"></a></h4><p>当upgrade命令检测到SQLite不存在时，会创建一个app.db，即SQLite数据库</p>
+<p>在使用类似MySQL和PostgreSQL的 数据库服务时，必须在运行    upgrade    之前在数据库服务器上创建数据库。</p>
+<h2 id="数据库升级和降级流程">数据库升级和降级流程<a class="post-anchor" href="#数据库升级和降级流程"></a></h2><p>通过数据库迁移机制的支持，在你修改应用中的模型之后，将生成一个新的迁移脚本（    <code>flask    db migrate</code>    ），你可能会审查它以确保自动生成的正确性，然后将更改应用到你的开发数据库（    <code>flask db    upgrade</code>    ）。    测试无误后，将迁移脚本添加到源代码管理并提交。</p>
+<p>当准备将新版本的应用发布到生产服务器时，你只需要获取包含新增迁移脚本的更新版本的应用，然 后运行    <code>flask    db    upgrade</code>    即可。    Alembic将检测到生产数据库未更新到最新版本，并运行在上一版 本之后创建的所有新增迁移脚本。</p>
+<p>​    <code>flask    db    downgrade</code>    命令可以回滚上次的迁移。    </p>
+
+
+  
+  <div class="post-guide">
+    <div class="item left">
+        
+          <a href="/2019/12/09/2019%E5%B9%B4%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%A6%E9%99%A2%E5%AD%A6%E7%94%9F%E4%BC%9A%E5%AD%A6%E4%B9%A0%E9%83%A8%E5%8A%9E%E5%85%AC%E5%9F%B9%E8%AE%AD%E4%BC%9A%E6%80%BB%E7%BB%93/">2019年计算机学院学生会学习部办公培训会总结</a>
+        
+    </div>
+    <div class="item right">
+        
+          <a href="/2019/10/03/%E5%9C%A8PyCharm%E4%B8%AD%E9%81%87%E5%88%B0pip%E5%A4%B1%E6%95%88%E6%97%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E4%BB%A5%E5%8F%8A%E5%85%B6%E4%BB%96%E5%8F%91%E7%8E%B0/">在PyCharm中遇到pip失效时的解决方案以及其他发现</a>
+        
+    </div>
+  </div>
+
+  
+
+  <div class="post-copyright">
+    <div class="auth">
+      本文作者：<a href="/wjywjy61.github.io">魏敬杨</a>
+    </div>
+    <div class="link">
+      永久链接：<a href="/wjywjy61.github.io/2019/12/06/%E3%80%90Flask-tips3%E3%80%91%E6%95%B0%E6%8D%AE%E5%BA%93/">/wjywjy61.github.io/2019/12/06/%E3%80%90Flask-tips3%E3%80%91%E6%95%B0%E6%8D%AE%E5%BA%93/</a>
+    </div>
+    <div class="declare">
+      版权声明：本文首发于<a href="/wjywjy61.github.io">魏敬杨</a>的博客，转载请注明出处！
+    </div>
+  </div>
+
+  <div id="comment"></div>
+
+  
+  
+</article>
+        <footer>
+          <div class="copyright">
+            ©2019
+            <a href="wjywjy61.github.io">魏敬杨</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
+            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
+          </div>
+          
+        </footer>
+      </div>
+    </div>
+  </body>
+  
+</html>
+<script type="text/javascript">
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\"],\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/12/9\",\"site_id\":\"\",\"access_token\":\"xxxxx\"}}")
+                </script> <script type="text/javascript">window.addEventListener('load', function() {
+    
+    window.loadJs = function(d, m, a) {
+      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
+      var b = document.createElement('script')
+      b.defer = true
+      b.setAttribute('type', 'text/javascript')
+      b.setAttribute('charset', 'UTF-8')
+      b.setAttribute('async', 'true')
+      b.setAttribute('src', d)
+      m && b.setAttribute('data-main', '/scripts/app-built')
+      if (typeof a === 'function') {
+        if (window.attachEvent) {
+          b.onreadystatechange = function() {
+            var e = b.readyState
+            if (e === 'loaded' || e === 'complete') {
+              b.onreadystatechange = null
+              a()
+            }
+          }
+        } else {
+          b.onload = a
+        }
+      }
+      c.appendChild(b)
+    }
+    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
+  })</script> <script type="text/javascript">
+                  ;(function() {
+                    var bp = document.createElement('script')
+                    var curProtocol = window.location.protocol.split(':')[0]
+                    if (curProtocol === 'https') {
+                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
+                    } else {
+                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
+                    }
+                    var s = document.getElementsByTagName('script')[0]
+                    s.parentNode.insertBefore(bp, s)
+                  })()
+                </script> 

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <script>
+  var _hmt = _hmt || []
+  ;(function() {
+    var hm = document.createElement('script')
+    hm.src = 'https://hm.baidu.com/hm.js?5a0acc897fd96474a2c8f4deac84611a'
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(hm, s)
+  })()
+</script> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    
+    <title>
+      在PyCharm中遇到pip失效时的解决方案以及其他发现 - 魏敬杨的个人网站
+    </title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    
+<link rel="stylesheet" href="/style/style.css">
+
+  <meta name="generator" content="Hexo 4.1.0"></head>
+  <body>
+    
+    <div id="post-toc" class="animated hiddenToc hide">
+      <span class="title">Toc</span>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#在PyCharm中遇到pip失效时的解决方案以及其他发现"><span class="toc-text">在PyCharm中遇到pip失效时的解决方案以及其他发现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、一些名词解释，希望能够帮助大家理解我所想表达的东西："><span class="toc-text">一、一些名词解释，希望能够帮助大家理解我所想表达的东西：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、问题描述"><span class="toc-text">二、问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、解决"><span class="toc-text">三、解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#㈠【失败一（可以直接跳过）】按照错误提示中的”Proposed-solution”来试了试"><span class="toc-text">㈠【失败一（可以直接跳过）】按照错误提示中的”Proposed solution”来试了试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#㈡【成功解决】在创建新项目时选择一下解释器是基于谁创建的"><span class="toc-text">㈡【成功解决】在创建新项目时选择一下解释器是基于谁创建的</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、总结"><span class="toc-text">四、总结</span></a></li></ol></li></ol>
+    </div>
+    
+    <div id="fixed-menu-wrap">
+      <span class="iconfont icon-sousuo search-box menu-reset"></span>
+      <span class="icon-toc menu-reset">Toc</span>
+      <span class="iconfont icon-arrowup menu-reset"></span>
+    </div>
+    <div id="fixed-menu">
+      <span class="iconfont icon-menu-"></span>
+    </div>
+    <div id="progress">
+      <div class="line"></div>
+    </div>
+    <div id="search-shade" class="animated hiddenSearch hide">
+      <div class="input-wrap">
+        <span class="iconfont icon-sousuo search-box"></span>
+        <input type="text" placeholder="Search" />
+        <span class="iconfont icon-close"></span>
+      </div>
+      <div class="search-result">
+        <div class="meta">
+          <span><b id="result-count">0</b> results found</span>
+          <img src="/images/logo.jpeg" />
+        </div>
+        <ul id="result-box"></ul>
+      </div>
+    </div>
+    <div id="menu-mask" class="animated hideMenuMask hide">
+      <span class="iconfont icon-close"></span>
+      <div class="nav">
+        
+        <a href="/" class="">
+          Home
+        </a>
+        
+        <a href="/archives" class="">
+          Archives
+        </a>
+        
+        <a href="/categories" class="">
+          Categories
+        </a>
+        
+        <a href="/tags" class="">
+          Tags
+        </a>
+        
+        <a href="/friends" class="">
+          Friends
+        </a>
+        
+        <a href="/about" class="">
+          About
+        </a>
+        
+      </div>
+    </div>
+    <div id="header">
+      <div class="intro">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <div class="author">魏敬杨</div>
+      </div>
+      <div class="nav">
+        <span class="iconfont icon-menu menu-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+    </div>
+    <div id="side" class="animated bounceInLeft">
+      <div class="shrink">
+        <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        <span class="iconfont icon-menu toggle-icon"></span>
+        <a href="#" class="search-box">
+          <span class="iconfont icon-sousuo"></span>
+        </a>
+      </div>
+      <div class="magnify">
+        <div class="about">
+          <div class="author">魏敬杨</div>
+          <a href="/" class="logo" style="background-image: url('/images/logo.jpeg')"></a>
+        </div>
+
+        <div class="nav">
+          
+          <a href="/" class="">
+            Home
+          </a>
+          
+          <a href="/archives" class="">
+            Archives
+          </a>
+          
+          <a href="/categories" class="">
+            Categories
+          </a>
+          
+          <a href="/tags" class="">
+            Tags
+          </a>
+          
+          <a href="/friends" class="">
+            Friends
+          </a>
+          
+          <a href="/about" class="">
+            About
+          </a>
+          
+          <a href="#" class="search-box">
+            <span class="iconfont icon-sousuo"></span>
+          </a>
+        </div>
+        <div class="bottom">
+          <div class="follow">
+            
+            <a href="https://github.com/wjywjy61" target="_block">
+              <span class="iconfont icon-github"></span>
+            </a>
+            
+            <a href="http://home.cnblogs.com/u/scwjy/" target="_block">
+              <span class="iconfont icon-博客园"></span>
+            </a>
+            
+            <a href="https://www.jianshu.com/u/d17b50762811" target="_block">
+              <span class="iconfont icon-简书"></span>
+            </a>
+             
+            <a href="/atom.xml" target="_block">
+              <span class="iconfont icon-rss"></span>
+            </a>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="container">
+      <div class="main animated bounceInRight delay-0.7s">
+        <article class="post-entry">
+    <div class="header">
+      
+      <div class="title">在PyCharm中遇到pip失效时的解决方案以及其他发现</div>
+      <div class="meta">
+        <span class="item">
+          <span class="iconfont icon-time-circle"></span>
+          <span>2019/10/03</span>
+        </span>
+
+        
+
+        
+        
+        
+      </div>
+      <div>
+      </div>
+    </div>
+    <h1 id="在PyCharm中遇到pip失效时的解决方案以及其他发现"><a href="https://www.jianshu.com/p/a2cc3aae920d" target="_blank" rel="noopener">在PyCharm中遇到pip失效时的解决方案以及其他发现</a><a class="post-anchor" href="#在PyCharm中遇到pip失效时的解决方案以及其他发现"></a></h1><p>在这篇文章里，我简单地叙述了我在使用PyCharm创建一个flask项目时遇到的问题，以及我解决这个问题的过程。其中比较值得注意的点有：①PyCharm创建新项目时的解释器配置②Python虚拟环境的创建等。</p>
+<h2 id="一、一些名词解释，希望能够帮助大家理解我所想表达的东西："><strong>一、一些名词解释，希望能够帮助大家理解我所想表达的东西：</strong><a class="post-anchor" href="#一、一些名词解释，希望能够帮助大家理解我所想表达的东西："></a></h2><p>①PyCharm：JetBrains公司出品的一款Python集成开发环境，是用于Python Web开发最好用的开发工具（似乎不用加“之一”）。一个好消息是，使用教育邮箱（类似<a href="mailto:xxx@cumt.edu.cn">xxx@cumt.edu.cn</a>之类的由高校分配的邮箱）可以在JetBrains官网上申请到专业版的授权。</p>
+<p>②pip：这是目前最好用的python第三方库安装工具，只需要一行代码便能为python安装一个库。</p>
+<p>③虚拟环境：这是为了防止破坏或搞乱全局python解释器而创建的一个包含Python解释器的python开发和调试环境，在这个环境中进行新库的安装不会影响到全局解释器中的python库。</p>
+<p>④flask：一个很受欢迎的python web开发框架。</p>
+<h2 id="二、问题描述"><strong>二、问题描述</strong><a class="post-anchor" href="#二、问题描述"></a></h2><p>在pyCharm中创建flask项目时，在建立好虚拟环境，开始自动用pip工具安装flask的时候，软件提示：Install flask failed。如图所示：</p>
+<p><a href="https://upload-images.jianshu.io/upload_images/1328295-d2ef29136f3943d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="noopener" data-caption="img" data-fancybox="images"><img src="https://upload-images.jianshu.io/upload_images/1328295-d2ef29136f3943d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></a></p>
+<p>在PyCharm中创建项目时自动安装flask时的失败提示</p>
+<p>我的PyCharm 版本为2019.2.3专业版（这就是用教育邮箱白嫖的，感谢JetBrains）。</p>
+<p>并且，我在我常用的Python的全局解释器中从没遇到过pip失效的问题！</p>
+<h2 id="三、解决"><strong>三、解决</strong><a class="post-anchor" href="#三、解决"></a></h2><h3 id="㈠【失败一（可以直接跳过）】按照错误提示中的”Proposed-solution”来试了试"><strong>㈠【失败一（可以直接跳过）】按照错误提示中的”Proposed solution”来试了试</strong><a class="post-anchor" href="#㈠【失败一（可以直接跳过）】按照错误提示中的”Proposed-solution”来试了试"></a></h3><p>①打开PyCharm中的终端，用 cd 命令进入到 项目文件夹\venv\Scripts 中，打开activate.bat 文件。手动激活PyCharm为这个项目配置的虚拟环境。</p>
+<p>②试试 pip install flask ,结果如下图所示，其实和之前的错误提示一摸一样。</p>
+<p><a href="https://upload-images.jianshu.io/upload_images/1328295-4e0221e7769785ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="noopener" data-caption="img" data-fancybox="images"><img src="https://upload-images.jianshu.io/upload_images/1328295-4e0221e7769785ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></a></p>
+<p>在PyCharm中的终端手动使用pip时的失败提示</p>
+<p>③再试试用pip安装一下其他的东西，结果和上一步一样</p>
+<p>④再试试用PyCharm创建一个Django项目，结果在自动使用 pip install django 时，出现了第二步同样的问题。</p>
+<p>⑤可以初步得出结论：在这个虚拟环境中，pip失效了！至于为什么失效，错误提示中写的是：pip配置了需要tls/ssl的位置，但是python中的ssl模块不可用。说实话，我不太明白。</p>
+<h3 id="㈡【成功解决】在创建新项目时选择一下解释器是基于谁创建的"><strong>㈡【成功解决】在创建新项目时选择一下解释器是基于谁创建的</strong><a class="post-anchor" href="#㈡【成功解决】在创建新项目时选择一下解释器是基于谁创建的"></a></h3><p>由于目前实在是不懂ssl这些，又感觉网上一些博客里边谈的东西太玄乎，我就想着直接干脆一点，把PyCharm创建的虚拟环境给换掉试试。</p>
+<p>当我再次尝试创建一个新的flask项目时，我多留意了一下创建时可选的一些配置，my god，我感到有些崩溃，原来<del>~</del>PyCharm创建的这个虚拟环境默认是根据我暂时没怎么用的anaconda中的来的。</p>
+<p><a href="https://upload-images.jianshu.io/upload_images/1328295-d0a475c2be19b99a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="noopener" data-caption="img" data-fancybox="images"><img src="https://upload-images.jianshu.io/upload_images/1328295-d0a475c2be19b99a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></a></p>
+<p>PyCharm中新建项目时的配置信息</p>
+<p>当我把 Based Interpreter 改为我的常用Python解释器（从python官网安装）的时候，项目便创建成功了，啥问题也没发生！</p>
+<p>常常，人们在迷迷糊糊的时候感到肚子有点不舒服，一心忙着寻医问药，而不知道原来是自己忘记了而肚子饿了。</p>
+<h2 id="四、总结"><strong>四、总结</strong><a class="post-anchor" href="#四、总结"></a></h2><p>①我成功的解决了我当下的问题，对于anaconda中的python解释器的毛病我是真的一窍不通，不过，好在目前我也没必要去了解得那么细。</p>
+<p>②当用Python用得多了的时候，系统里很容易存在多个python解释器，这时候自己很容易被搞糊涂。我的建议是：在系统的环境变量中只配置自己最常用的那一个解释器所在的目录，并将其作为一个全局解释器，在其他地方需要单独的python解释器的时候，使用虚拟环境（可以用vitutual或pypenv等工具手动创建，也可以用PyCharn这类集成开发环境在创建项目时自动创建，不过不管是在哪里创建，都一定得注意要基于一个可靠的Python解释器创建！）。</p>
+<p>③在PyCharm的新项目创建时，是可以对本项目即将使用的解释器进行配置的，可以选择：⑴新建虚拟环境的python解释器的存放位置 ⑵基于哪个解释器来新建虚拟环境的python解释器 ⑶使用已经存在的虚拟环境的解释器 ……</p>
+
+
+  
+  <div class="post-guide">
+    <div class="item left">
+        
+          <a href="/2019/12/06/%E3%80%90Flask-tips3%E3%80%91%E6%95%B0%E6%8D%AE%E5%BA%93/">【Flask_tips3】数据库</a>
+        
+    </div>
+    <div class="item right">
+        
+          <a href="/2019/06/07/C-C-%E4%B8%AD%E5%8F%98%E9%87%8F%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%92%8C%E5%AD%98%E5%82%A8%E7%B1%BB%E5%9E%8B%E7%AE%80%E4%BB%8B/">C/C++中变量的作用域和存储类型简介</a>
+        
+    </div>
+  </div>
+
+  
+
+  <div class="post-copyright">
+    <div class="auth">
+      本文作者：<a href="/wjywjy61.github.io">魏敬杨</a>
+    </div>
+    <div class="link">
+      永久链接：<a href="/wjywjy61.github.io/2019/10/03/%E5%9C%A8PyCharm%E4%B8%AD%E9%81%87%E5%88%B0pip%E5%A4%B1%E6%95%88%E6%97%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E4%BB%A5%E5%8F%8A%E5%85%B6%E4%BB%96%E5%8F%91%E7%8E%B0/">/wjywjy61.github.io/2019/10/03/%E5%9C%A8PyCharm%E4%B8%AD%E9%81%87%E5%88%B0pip%E5%A4%B1%E6%95%88%E6%97%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E4%BB%A5%E5%8F%8A%E5%85%B6%E4%BB%96%E5%8F%91%E7%8E%B0/</a>
+    </div>
+    <div class="declare">
+      版权声明：本文首发于<a href="/wjywjy61.github.io">魏敬杨</a>的博客，转载请注明出处！
+    </div>
+  </div>
+
+  <div id="comment"></div>
+
+  
+  
+</article>
+        <footer>
+          <div class="copyright">
+            ©2019
+            <a href="wjywjy61.github.io">魏敬杨</a> Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> |
+            <a href="https://github.com/shixiaohu2206/hexo-theme-huhu" target="_blank" rel="noopener">hexo-theme-huhu</a>
+          </div>
+          
+        </footer>
+      </div>
+    </div>
+  </body>
+  
+</html>
+<script type="text/javascript">
+                  window.HUHU_CONFIG = JSON.parse("{\"share\":[\"weibo\",\"weixin\",\"qqkongjian\",\"QQ\",\"douban\"],\"service_worker\":{\"open\":false},\"baidu_tongji\":{\"site_from\":\"2019/12/9\",\"site_id\":\"\",\"access_token\":\"xxxxx\"}}")
+                </script> <script type="text/javascript">window.addEventListener('load', function() {
+    
+    window.loadJs = function(d, m, a) {
+      var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement
+      var b = document.createElement('script')
+      b.defer = true
+      b.setAttribute('type', 'text/javascript')
+      b.setAttribute('charset', 'UTF-8')
+      b.setAttribute('async', 'true')
+      b.setAttribute('src', d)
+      m && b.setAttribute('data-main', '/scripts/app-built')
+      if (typeof a === 'function') {
+        if (window.attachEvent) {
+          b.onreadystatechange = function() {
+            var e = b.readyState
+            if (e === 'loaded' || e === 'complete') {
+              b.onreadystatechange = null
+              a()
+            }
+          }
+        } else {
+          b.onload = a
+        }
+      }
+      c.appendChild(b)
+    }
+    window.loadJs && window.loadJs('https://cdn.bootcss.com/require.js/2.3.6/require.min.js', true, function() {require.config({"paths":{"util":"util","share":"share","search":"search","registerSW":"registerSW","valine":"cdn/Valine.min","av":["https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min"],"pjax":["https://cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min"],"jquery":["https://cdn.bootcss.com/jquery/3.4.1/jquery.min"],"confirm":["https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min"],"fancybox":["https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min"],"chart":["https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.min"]},"map":{"*":{"css":"https://cdn.bootcss.com/require-css/0.1.10/css.min.js"}},"shim":{"fancybox":{"deps":["css!https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css"]},"confirm":{"deps":["css!https://cdn.bootcss.com/jquery-confirm/3.3.4/jquery-confirm.min.css"]},"chart":{"deps":["css!https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.min.css"]}},"waitSeconds":3})})
+  })</script> <script type="text/javascript">
+                  ;(function() {
+                    var bp = document.createElement('script')
+                    var curProtocol = window.location.protocol.split(':')[0]
+                    if (curProtocol === 'https') {
+                      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js'
+                    } else {
+                      bp.src = 'http://push.zhanzhang.baidu.com/push.js'
+                    }
+                    var s = document.getElementsByTagName('script')[0]
+                    s.parentNode.insertBefore(bp, s)
+                  })()
+                </script> 
